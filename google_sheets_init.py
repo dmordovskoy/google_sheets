@@ -5,6 +5,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 def Create_Service(client_secret_file,\
+    #read-only by default
     scope='https://www.googleapis.com/auth/spreadsheets.readonly',\
     api_service_name='sheets',\
     api_version='v4'):
@@ -13,6 +14,7 @@ def Create_Service(client_secret_file,\
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
+    # But it onlu exists 1 hour, then you have to delete token.pickle to refresh the access
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)    
