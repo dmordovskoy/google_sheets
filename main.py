@@ -1,4 +1,5 @@
 from __future__ import print_function
+import pandas as pd
 import pickle
 import os.path
 from googleapiclient.discovery import build
@@ -6,7 +7,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+# https://developers.google.com/sheets/api/guides/authorizing
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '19ckopCxamrv8g0sQQOtiHycRdwgTqS9h4-PC2IxxXCM'
@@ -46,10 +48,13 @@ def main():
     if not values:
         print('No data found.')
     else:
-        print('Name, Major:')
+        return values
+"""         print('Name, Major:')
         for row in values:
             # Print columns A and E, which correspond to indices 0 and 4.
-            print('%s, %s' % (row[0], row[4]))
+            print('%s, %s' % (row[0], row[4])) """
+
 
 if __name__ == '__main__':
-    main()
+    values = main()
+    df = pd.DataFrame(values[1:], columns=values[0])
