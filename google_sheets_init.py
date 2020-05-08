@@ -6,6 +6,8 @@ from google.auth.transport.requests import Request
 
 def Create_Service(client_secret_file,\
     #read-only by default
+    # If modifying these scopes, delete the file token.pickle.
+    # https://developers.google.com/sheets/api/guides/authorizing
     scope='https://www.googleapis.com/auth/spreadsheets.readonly',\
     api_service_name='sheets',\
     api_version='v4'):
@@ -14,9 +16,9 @@ def Create_Service(client_secret_file,\
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    # But it onlu exists 1 hour, then you have to delete token.pickle to refresh the access
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    # But it only exists 1 hour, then you have to delete token.pickle to refresh the access
+    if os.path.exists('secret/token.pickle'):
+        with open('secret/token.pickle', 'rb') as token:
             creds = pickle.load(token)    
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -27,7 +29,7 @@ def Create_Service(client_secret_file,\
                 client_secret_file, scope)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
+        with open('secret/token.pickle', 'wb') as token:
             pickle.dump(creds, token)
     
     try:

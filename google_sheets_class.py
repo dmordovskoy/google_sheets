@@ -1,4 +1,4 @@
-from google_sheets_init import Create_Service
+#from google_sheets_init import Create_Service
 
 # sourced from https://github.com/gsuitedevs/python-samples/blob/master/sheets/snippets/spreadsheet_snippets.py
 
@@ -94,17 +94,21 @@ class GoogleSheets(object):
         # [END sheets_batch_update]
         # return response
 
-    def get_values(self, spreadsheet_id, range_name):
+    def get_values(self, spreadsheet_id, range_name=''):
         """Returns values from the Google Sheet with the given ID
 
         Arguments:
             spreadsheet_id {string} -- ID
-            range_name {string} -- Range, i.e. 'A1:F4'
+            range_name {string} -- Range, i.e. 'A1:F4', by defaul gets data from the first sheet in the file
 
         Returns:
             [array] -- list of rows, 2 dimension array
         """
         service = self.service
+        if range_name == '':
+            sheet_metadata = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+            sheets = sheet_metadata.get('sheets', '') # gets the list of all sheets
+            range_name = sheets[0].get("properties", {}).get("title", 0) # gets the name of the first sheet
         # [START sheets_get_values]
         result = service.spreadsheets().values().get(
             spreadsheetId=spreadsheet_id, range=range_name).execute()
@@ -150,7 +154,3 @@ class GoogleSheets(object):
         #                                        .get('updatedCells')))
         # # [END sheets_append_values]
         # return result
-
-service = Create_Service('credentials_python.json', 'https://www.googleapis.com/auth/spreadsheets')
-
-my_sheet = GoogleSheets(service)
