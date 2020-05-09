@@ -4,6 +4,7 @@ from google_sheets_init import Create_Service
 from pprint import pprint
 
 if __name__ == '__main__':
+    # Don't forget to delete token to refresh app access
     service = Create_Service('secret/credentials_python.json', 'https://www.googleapis.com/auth/spreadsheets')
     my_sheet = GoogleSheets(service)
     values = my_sheet.get_values('19ckopCxamrv8g0sQQOtiHycRdwgTqS9h4-PC2IxxXCM')
